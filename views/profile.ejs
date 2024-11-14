@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Project - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="max-w-4xl mx-auto p-6">
+        <!-- Logout Button -->
+        <div class="flex justify-end mb-6">
+            <a class="bg-red-500 text-white py-2 px-4 rounded-md text-sm hover:bg-red-600" href="/logout">Logout</a>
+        </div>
+
+<!-- Profile Section -->
+<div class="flex items-center gap-6 mb-8">
+    <!-- Profile Picture -->
+    <div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-gray-700">
+        <!-- Profile Picture Image -->
+        <img class="w-full h-full object-cover" src="/images/uploads/<%= user.profilepic %>" alt="User Profile Picture">
+
+        <!-- Upload Overlay Button -->
+        <a class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-sm font-semibold hover:bg-opacity-75 transition-opacity duration-300" href="/profile/upload">
+            Upload Photo
+        </a>
+    </div>
+
+    <!-- User Name -->
+    <h3 class="text-3xl font-semibold text-white">Hello, <%= user.name %></h3>
+</div>
+
+
+        
+
+        <!-- Post Creation Section -->
+        <h5 class="text-lg text-gray-400 mb-8">You can create a Post</h5>
+        <form action="/post" method="post" class="mb-12">
+            <textarea class="w-full p-3 bg-transparent border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="What's on your mind?" name="content"></textarea>
+            <input class="mt-4 bg-blue-500 text-white py-2 px-6 rounded-md text-sm hover:bg-blue-600 cursor-pointer" type="submit" value="Create new Post">
+        </form>
+
+        <!-- Display Posts -->
+        <div class="posts mt-12">
+            <h3 class="text-2xl text-gray-300 mb-6">Your Posts</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% user.posts.forEach(function(post) { %>
+                    <div class="post bg-gray-800 p-4 rounded-md border border-gray-700">
+                        <h4 class="text-blue-500 text-xl mb-3"><%= user.username %></h4>
+                        <p class="text-white mb-4"><%= post.content %></p>
+                        <small><%= post.likes.length %></small>
+                        <div class="flex justify-between text-sm text-gray-400">
+                            <a href="/like/<%= post._id %>" class="hover:text-blue-400">
+                                <%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
+                            </a>
+                            <a href="/edit/<%= post._id %>" class="hover:text-gray-300">Edit</a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
